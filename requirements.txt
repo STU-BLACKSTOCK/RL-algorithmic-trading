@@ -7,3 +7,4 @@ gymnasium
 stable-baselines3[extra]
 tensorboard
 ta
+joblib
