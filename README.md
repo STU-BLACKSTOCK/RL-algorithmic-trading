@@ -24,3 +24,14 @@ notebooks/
 ## Status
 
 Phase 1: Environment Setup
+
+## Completed
+
+### Phase 1
+- Project setup
+- GitHub repository
+- Virtual environment
+
+### Phase 2
+- Historical stock data acquisition
+- Yahoo Finance integration

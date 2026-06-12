@@ -1,0 +1,8 @@
+TICKERS = [
+    "AAPL",
+    "MSFT",
+    "GOOGL"
+]
+
+START_DATE = "2015-01-01"
+END_DATE = "2025-12-31"
