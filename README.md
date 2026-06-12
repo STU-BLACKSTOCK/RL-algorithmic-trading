@@ -1,2 +1,26 @@
-# RL-algorithmic-trading
-Reinforcement Learning based Algorithmic Trading System using PPO and Gymnasium
+# Reinforcement Learning for Algorithmic Trading
+
+This project develops a Reinforcement Learning agent capable of learning trading strategies for financial assets using PPO (Proximal Policy Optimization).
+
+## Tech Stack
+
+- Python
+- Gymnasium
+- Stable-Baselines3
+- PPO
+- Pandas
+- NumPy
+- Matplotlib
+- YFinance
+
+## Project Structure
+
+data/
+src/
+models/
+logs/
+notebooks/
+
+## Status
+
+Phase 1: Environment Setup

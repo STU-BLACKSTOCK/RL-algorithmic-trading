@@ -1,0 +1,8 @@
+numpy
+pandas
+matplotlib
+scikit-learn
+yfinance
+gymnasium
+stable-baselines3[extra]
+tensorboard
