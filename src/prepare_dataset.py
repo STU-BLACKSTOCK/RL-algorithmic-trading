@@ -38,6 +38,7 @@ for file in files:
     path = os.path.join(PROCESSED_DIR, file)
 
     df = pd.read_csv(path)
+    df["Raw_Close"] = df["Close"]
 
     n = len(df)
 

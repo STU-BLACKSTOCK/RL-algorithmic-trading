@@ -2,14 +2,34 @@ import pandas as pd
 
 from trading_env import TradingEnv
 
-df = pd.read_csv("../data/train/AAPL.csv")
+df = pd.read_csv(
+    "../data/train/AAPL.csv"
+)
 
 env = TradingEnv(df)
 
 obs, info = env.reset()
 
-print("Observation Shape:")
-print(obs.shape)
+for _ in range(5):
 
-print("\nObservation:")
-print(obs)
+    action = env.action_space.sample()
+
+    obs, reward, terminated, truncated, info = env.step(action)
+
+    env.render()
+
+    action_names = {
+    0: "HOLD",
+    1: "BUY",
+    2: "SELL"
+    }
+
+    print(
+        f"Action: {action_names[action]} | "
+        f"Reward: {reward:.4f}"
+    )
+
+    print(info)
+
+    if terminated:
+        break
