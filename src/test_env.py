@@ -20,8 +20,10 @@ for _ in range(5):
 
     action_names = {
     0: "HOLD",
-    1: "BUY",
-    2: "SELL"
+    1: "BUY_25",
+    2: "BUY_ALL",
+    3: "SELL_25",
+    4: "SELL_ALL"
     }
 
     print(

@@ -23,11 +23,11 @@ model = PPO(
 )
 
 model.learn(
-    total_timesteps=10000
+    total_timesteps=500000
 )
 
 model.save(
-    "../models/ppo_aapl_v1"
+    "../models/ppo_aapl_v6"
 )
 
 print("Training completed.")
