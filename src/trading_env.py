@@ -258,10 +258,25 @@ class TradingEnv(gym.Env):
         )
 
         # Reward = change in portfolio value
-        reward = (
+        portfolio_return = (
             self.portfolio_value -
             previous_portfolio_value
         ) / previous_portfolio_value
+
+        reward = portfolio_return
+
+        peak_value = max(
+            self.portfolio_history
+        )
+
+        drawdown = (
+            peak_value -
+            self.portfolio_value
+        ) / peak_value
+
+        reward -= (
+            drawdown * 0.001
+        )
 
 
         observation = self._get_observation()
@@ -270,7 +285,8 @@ class TradingEnv(gym.Env):
             "portfolio_value": self.portfolio_value,
             "cash": self.cash,
             "shares_held": self.shares_held,
-            "trade_count": self.trade_count
+            "trade_count": self.trade_count,
+            "drawdown": drawdown
         }
 
         return (
