@@ -15,7 +15,7 @@ from trading_env import TradingEnv
 
 # Load trained model
 model = PPO.load(
-    "../models/ppo_aapl_v7"
+    "../models/ppo_aapl_v8"
 )
 
 # Load test data

@@ -27,7 +27,7 @@ model.learn(
 )
 
 model.save(
-    "../models/ppo_aapl_v7"
+    "../models/ppo_aapl_v8"
 )
 
 print("Training completed.")
