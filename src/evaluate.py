@@ -15,7 +15,7 @@ from trading_env import TradingEnv
 
 # Load trained model
 model = PPO.load(
-    "../models/ppo_aapl_v8"
+    "../models/ppo_aapl_v7"
 )
 
 # Load test data
@@ -164,10 +164,10 @@ os.makedirs(
 
 # Save graph
 plt.savefig(
-    "../results/equity_curve.png",
+    "../results/equity_curve1.png",
     bbox_inches="tight"
 )
 
 print(
-    "Graph saved to results/equity_curve.png"
+    "Graph saved to results/equity_curve1.png"
 )

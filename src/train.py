@@ -5,11 +5,29 @@ from stable_baselines3.common.env_checker import check_env
 
 from trading_env import TradingEnv
 
-df = pd.read_csv(
+aapl = pd.read_csv(
     "../data/train/AAPL.csv"
 )
 
-env = TradingEnv(df)
+msft = pd.read_csv(
+    "../data/train/MSFT.csv"
+)
+
+googl = pd.read_csv(
+    "../data/train/GOOGL.csv"
+)
+
+from multi_stock_env import (
+    MultiStockTradingEnv
+)
+
+stocks = [
+    ("AAPL", aapl),
+    ("MSFT", msft),
+    ("GOOGL", googl)
+]
+
+env = MultiStockTradingEnv(stocks)
 
 check_env(env)
 
@@ -23,11 +41,11 @@ model = PPO(
 )
 
 model.learn(
-    total_timesteps=200000
+    total_timesteps=300000
 )
 
 model.save(
-    "../models/ppo_aapl_v8"
+    "../models/ppo_multistock_v1"
 )
 
 print("Training completed.")

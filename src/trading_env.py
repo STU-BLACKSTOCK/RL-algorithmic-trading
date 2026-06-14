@@ -278,7 +278,7 @@ class TradingEnv(gym.Env):
             drawdown * 0.001
         )
 
-    
+
         observation = self._get_observation()
 
         info = {

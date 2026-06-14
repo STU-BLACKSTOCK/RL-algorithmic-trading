@@ -2,13 +2,27 @@ import pandas as pd
 
 from stable_baselines3.common.env_checker import check_env
 
-from trading_env import TradingEnv
+from multi_stock_env import (
+    MultiStockTradingEnv
+)
 
-df = pd.read_csv(
+aapl = pd.read_csv(
     "../data/train/AAPL.csv"
 )
 
-env = TradingEnv(df)
+msft = pd.read_csv(
+    "../data/train/MSFT.csv"
+)
+
+googl = pd.read_csv(
+    "../data/train/GOOGL.csv"
+)
+
+env = MultiStockTradingEnv([
+    aapl,
+    msft,
+    googl
+])
 
 check_env(env)
 
