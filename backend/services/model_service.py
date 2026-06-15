@@ -2,6 +2,10 @@ from stable_baselines3 import PPO
 import os
 import numpy as np
 
+from backend.services.data_service import (
+    DataService
+)
+
 # Project root directory
 BASE_DIR = os.path.dirname(
     os.path.dirname(
@@ -41,6 +45,9 @@ class ModelService:
         # 3 = Sell 25%
         # 4 = Sell 100%
         self.action_space = 5
+        self.data_service = (
+            DataService()
+        )
 
     def get_model_info(self):
 
@@ -51,15 +58,19 @@ class ModelService:
             "loaded": True
         }
 
-    def predict_action(self):
+    def predict_action(
+        self,
+        ticker
+    ):
 
         obs_size = (
             self.lookback_window * 12
         ) + 2
 
-        observation = np.zeros(
-            obs_size,
-            dtype=np.float32
+        observation = (
+            self.build_observation(
+            ticker
+            )
         )
 
         action, _ = self.model.predict(
@@ -85,4 +96,55 @@ class ModelService:
         return mapping.get(
             action,
             "UNKNOWN"
+        )
+
+    def build_observation(
+    self,
+    ticker
+    ):
+
+        df = self.data_service.get_latest_data(
+            ticker
+        )
+
+        latest_rows = df.tail(
+            self.lookback_window
+        )
+
+        feature_columns = [
+
+            "Close",
+            "High",
+            "Low",
+            "Open",
+            "Volume",
+
+            "SMA20",
+            "SMA50",
+            "EMA20",
+
+            "RSI",
+            "MACD",
+            "MACD_SIGNAL",
+
+            "Returns"
+        ]
+
+        market_data = latest_rows[
+            feature_columns
+        ].values.flatten()
+
+        observation = np.concatenate([
+
+            market_data,
+
+            np.array([
+                10000,
+                0
+            ])
+
+        ])
+
+        return observation.astype(
+            np.float32
         )

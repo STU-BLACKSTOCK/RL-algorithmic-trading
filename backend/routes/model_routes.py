@@ -24,7 +24,9 @@ def predict(
 ):
 
     action = (
-        service.predict_action()
+        service.predict_action(
+            request.ticker
+        )
     )
 
     return {
@@ -33,5 +35,6 @@ def predict(
         "action":
             service.action_to_text(
                 action
-            )
+            ),
+        "model": "ppo_aapl_v7"
     }
