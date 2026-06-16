@@ -9,6 +9,7 @@ import Prediction from "./pages/Prediction";
 import ModelInfo from "./pages/ModelInfo";
 
 import MainLayout from "./layouts/MainLayout";
+import Analytics from "./pages/Analytics";
 
 function App() {
 
@@ -37,6 +38,11 @@ function App() {
             element={
               <ModelInfo />
             }
+          />
+
+          <Route
+            path="/analytics"
+            element={<Analytics />}
           />
 
         </Routes>

@@ -61,6 +61,14 @@ function MainLayout({
               </Link>
             </li>
 
+            <li>
+              <Link
+                to="/analytics"
+              >
+                Analytics
+              </Link>
+            </li>
+
           </ul>
 
         </nav>
