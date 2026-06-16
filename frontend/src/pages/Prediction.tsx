@@ -42,14 +42,28 @@ function Prediction() {
 
       } catch (error) {
 
-        console.error(
-          error
-        );
+        console.error(error);
 
       } finally {
 
         setLoading(false);
       }
+    };
+
+  const getActionColor =
+    (action: string) => {
+
+      if (
+        action.includes("BUY")
+      )
+        return "#22c55e";
+
+      if (
+        action.includes("SELL")
+      )
+        return "#ef4444";
+
+      return "#64748b";
     };
 
   return (
@@ -69,27 +83,19 @@ function Prediction() {
         }
       >
 
-        <option>
-          AAPL
-        </option>
-
-        <option>
-          MSFT
-        </option>
-
-        <option>
-          GOOGL
-        </option>
+        <option>AAPL</option>
+        <option>MSFT</option>
+        <option>GOOGL</option>
 
       </select>
-
-      <br />
-      <br />
 
       <button
         onClick={
           handlePredict
         }
+        style={{
+          marginLeft: "10px"
+        }}
       >
         Get Prediction
       </button>
@@ -105,23 +111,73 @@ function Prediction() {
 
       {prediction && (
 
-        <div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(2, 1fr)",
+            gap: "20px"
+          }}
+        >
 
-          <h2>
-            Prediction
-          </h2>
+          <div
+            style={{
+              border:
+                "1px solid #ddd",
+              borderRadius:
+                "8px",
+              padding:
+                "20px"
+            }}
+          >
 
-          <p>
-            Ticker:
-            {" "}
-            {prediction.ticker}
-          </p>
+            <h3>
+              Selected Stock
+            </h3>
 
-          <p>
-            Action:
-            {" "}
-            {prediction.action}
-          </p>
+            <p>
+              {
+                prediction.ticker
+              }
+            </p>
+
+          </div>
+
+          <div
+            style={{
+              border:
+                "1px solid #ddd",
+              borderRadius:
+                "8px",
+              padding:
+                "20px"
+            }}
+          >
+
+            <h3>
+              Trading Signal
+            </h3>
+
+            <p
+              style={{
+                color:
+                  getActionColor(
+                    prediction.action
+                  ),
+                fontWeight:
+                  "bold",
+                fontSize:
+                  "20px"
+              }}
+            >
+
+              {
+                prediction.action
+              }
+
+            </p>
+
+          </div>
 
         </div>
 
