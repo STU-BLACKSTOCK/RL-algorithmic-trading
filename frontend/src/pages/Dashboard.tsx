@@ -1,4 +1,66 @@
+import {
+  useEffect,
+  useState
+} from "react";
+
+import api from "../services/api";
+
+import type {
+  DashboardData
+} from "../types/dashboard";
+
 function Dashboard() {
+
+  const [data, setData] =
+    useState<
+      DashboardData | null
+    >(null);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  useEffect(() => {
+
+    const fetchDashboard =
+      async () => {
+
+        try {
+
+          const response =
+            await api.get(
+              "/dashboard"
+            );
+
+          setData(
+            response.data
+          );
+
+        } catch (error) {
+
+          console.error(
+            error
+          );
+
+        } finally {
+
+          setLoading(
+            false
+          );
+        }
+      };
+
+    fetchDashboard();
+
+  }, []);
+
+  if (loading) {
+
+    return (
+      <h2>
+        Loading...
+      </h2>
+    );
+  }
 
   const cards = [
 
@@ -6,28 +68,30 @@ function Dashboard() {
       title:
         "Model",
       value:
-        "ppo_aapl_v7"
+        data?.model
     },
 
     {
       title:
         "Action Space",
       value:
-        "5"
+        data?.action_space
     },
 
     {
       title:
-        "Lookback",
+        "Lookback Window",
       value:
-        "30"
+        data?.lookback_window
     },
 
     {
       title:
-        "Backend",
+        "Loaded",
       value:
-        "Connected"
+        String(
+          data?.loaded
+        )
     }
 
   ];

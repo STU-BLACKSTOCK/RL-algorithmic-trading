@@ -18,6 +18,15 @@ def get_model_info():
 
     return service.get_model_info()
 
+
+@router.get("/dashboard")
+def dashboard():
+
+    return (
+        service.get_dashboard_data()
+    )
+
+
 @router.post("/predict")
 def predict(
     request: PredictionRequest

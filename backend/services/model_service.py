@@ -148,3 +148,15 @@ class ModelService:
         return observation.astype(
             np.float32
         )
+
+    
+    def get_dashboard_data(self):
+
+        return {
+            "model": self.model_name,
+            "lookback_window":
+                self.lookback_window,
+            "action_space":
+                self.action_space,
+            "loaded": True
+        }
