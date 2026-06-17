@@ -160,3 +160,29 @@ class ModelService:
                 self.action_space,
             "loaded": True
         }
+
+    def get_stock_analysis(
+        self,
+        ticker
+    ):
+
+        analysis = (
+            self.data_service
+            .get_latest_indicators(
+                ticker
+            )
+        )
+
+        action = (
+            self.predict_action(
+                ticker
+            )
+        )
+
+        analysis[
+            "prediction"
+        ] = self.action_to_text(
+            action
+        )
+
+        return analysis

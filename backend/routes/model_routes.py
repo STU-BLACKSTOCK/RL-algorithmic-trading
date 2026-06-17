@@ -47,3 +47,16 @@ def predict(
             ),
         "model": "ppo_aapl_v7"
     }
+
+@router.get(
+    "/stock-analysis/{ticker}"
+)
+def stock_analysis(
+    ticker: str
+):
+
+    return (
+        service.get_stock_analysis(
+            ticker
+        )
+    )

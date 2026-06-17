@@ -10,6 +10,7 @@ import ModelInfo from "./pages/ModelInfo";
 
 import MainLayout from "./layouts/MainLayout";
 import Analytics from "./pages/Analytics";
+import StockAnalysis from "./pages/StockAnalysis";
 
 function App() {
 
@@ -43,6 +44,13 @@ function App() {
           <Route
             path="/analytics"
             element={<Analytics />}
+          />
+
+          <Route
+            path="/analysis"
+            element={
+              <StockAnalysis />
+            }
           />
 
         </Routes>
