@@ -1,4 +1,11 @@
+import os
+
 import pandas as pd
+
+from backend.config import (
+    TEST_DATA_DIR,
+    FEATURE_COLUMNS,
+)
 
 
 class DataService:
@@ -8,15 +15,21 @@ class DataService:
         ticker
     ):
 
-        path = (
-            f"data/test/{ticker}.csv"
+        path = os.path.join(
+            TEST_DATA_DIR,
+            f"{ticker}.csv"
         )
+
+        if not os.path.exists(path):
+
+            raise FileNotFoundError(
+                f"No data file found for {ticker} at {path}"
+            )
 
         df = pd.read_csv(path)
 
         return df
 
-    
     def get_latest_indicators(
         self,
         ticker
@@ -36,7 +49,7 @@ class DataService:
             "close":
                 float(
                     latest["Raw_Close"]
-                ),  
+                ),
 
             "rsi":
                 float(
@@ -56,5 +69,10 @@ class DataService:
             "sma50":
                 float(
                     latest["SMA50"]
-                )   
-        }   
+                )
+        }
+
+    @staticmethod
+    def get_feature_columns():
+
+        return FEATURE_COLUMNS.copy()

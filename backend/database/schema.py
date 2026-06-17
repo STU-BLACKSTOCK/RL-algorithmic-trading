@@ -1,32 +1,36 @@
-from db import (
-    get_connection
-)
+from backend.database.db import get_connection
 
-conn = get_connection()
 
-cursor = conn.cursor()
+def init_db():
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS predictions (
+    conn = get_connection()
+    cursor = conn.cursor()
 
-    id INTEGER PRIMARY KEY
-    AUTOINCREMENT,
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS predictions (
 
-    ticker TEXT,
+        id INTEGER PRIMARY KEY
+        AUTOINCREMENT,
 
-    action TEXT,
+        ticker TEXT,
 
-    created_at
-    TIMESTAMP DEFAULT
-    CURRENT_TIMESTAMP
+        action TEXT,
 
-)
-""")
+        created_at
+        TIMESTAMP DEFAULT
+        CURRENT_TIMESTAMP
 
-conn.commit()
+    )
+    """)
 
-conn.close()
+    conn.commit()
+    conn.close()
 
-print(
-    "Database initialized."
-)
+
+if __name__ == "__main__":
+
+    init_db()
+
+    print(
+        "Database initialized."
+    )

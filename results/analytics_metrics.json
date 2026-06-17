@@ -1,0 +1,96 @@
+{
+  "models": [
+    {
+      "name": "PPO v1",
+      "portfolio": 14467,
+      "sharpe": 0.86,
+      "drawdown": -33.0,
+      "returnPct": 44.67,
+      "source": "legacy"
+    },
+    {
+      "name": "PPO v7",
+      "portfolio": 10938.51,
+      "sharpe": 0.37,
+      "drawdown": -11.3,
+      "returnPct": 9.39,
+      "source": "evaluated",
+      "actions": {
+        "HOLD": 37,
+        "BUY_25": 58,
+        "BUY_100": 8,
+        "SELL_25": 3,
+        "SELL_100": 271
+      }
+    },
+    {
+      "name": "MultiStock v1",
+      "portfolio": 9905.24,
+      "sharpe": -1.08,
+      "drawdown": -2.8,
+      "returnPct": -0.95,
+      "source": "evaluated",
+      "actions": {
+        "HOLD": 0,
+        "BUY_25": 4,
+        "BUY_100": 0,
+        "SELL_25": 190,
+        "SELL_100": 183
+      }
+    },
+    {
+      "name": "Best Val Model",
+      "portfolio": 9817.59,
+      "sharpe": -0.32,
+      "drawdown": -8.3,
+      "returnPct": -1.82,
+      "source": "evaluated",
+      "actions": {
+        "HOLD": 0,
+        "BUY_25": 0,
+        "BUY_100": 44,
+        "SELL_25": 0,
+        "SELL_100": 333
+      }
+    }
+  ],
+  "equity_curve": [
+    {
+      "day": "W1",
+      "PPO v7": 10000.0,
+      "MultiStock v1": 10000.0,
+      "Best Val Model": 10000.0
+    },
+    {
+      "day": "W2",
+      "PPO v7": 10146.23,
+      "MultiStock v1": 10000.0,
+      "Best Val Model": 10000.0
+    },
+    {
+      "day": "W3",
+      "PPO v7": 10856.76,
+      "MultiStock v1": 10000.0,
+      "Best Val Model": 10000.0
+    },
+    {
+      "day": "W4",
+      "PPO v7": 10077.09,
+      "MultiStock v1": 9905.24,
+      "Best Val Model": 9547.74
+    },
+    {
+      "day": "W5",
+      "PPO v7": 10938.51,
+      "MultiStock v1": 9905.24,
+      "Best Val Model": 9817.59
+    },
+    {
+      "day": "W6",
+      "PPO v7": 10938.51,
+      "MultiStock v1": 9905.24,
+      "Best Val Model": 9817.59
+    }
+  ],
+  "initial_capital": 10000.0
+}

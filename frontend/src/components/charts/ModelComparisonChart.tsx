@@ -11,11 +11,16 @@ import {
 import { MODEL_COMPARISON_DATA } from "../../data/analyticsData";
 import { CHART_COLORS } from "../../constants";
 import { formatCurrency } from "../../utils/formatters";
+import type { ModelMetrics } from "../../types/analytics";
 
-const BAR_COLORS = [CHART_COLORS.primary, CHART_COLORS.secondary, CHART_COLORS.info];
+const BAR_COLORS = [CHART_COLORS.primary, CHART_COLORS.secondary, CHART_COLORS.info, CHART_COLORS.warning];
 
-function ModelComparisonChart() {
-  const data = MODEL_COMPARISON_DATA.map((m) => ({
+interface Props {
+  models?: ModelMetrics[];
+}
+
+function ModelComparisonChart({ models = MODEL_COMPARISON_DATA }: Props) {
+  const data = models.map((m) => ({
     name: m.name,
     portfolio: m.portfolio,
   }));

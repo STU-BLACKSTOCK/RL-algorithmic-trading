@@ -1,19 +1,30 @@
-from fastapi import FastAPI
+from contextlib import asynccontextmanager
 
-from backend.routes.model_routes import (
-    router as model_router
-)
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from backend.routes.model_routes import router as model_router
+from backend.database.schema import init_db
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+
+    init_db()
+
+    yield
+
 
 app = FastAPI(
     title="RL Trading API",
-    version="1.0"
+    version="1.0",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173"
+        "http://localhost:5173",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -22,7 +33,7 @@ app.add_middleware(
 
 app.include_router(
     model_router,
-    prefix="/api"
+    prefix="/api",
 )
 
 

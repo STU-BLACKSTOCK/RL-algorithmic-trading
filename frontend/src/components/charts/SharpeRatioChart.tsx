@@ -11,9 +11,14 @@ import {
 } from "recharts";
 import { MODEL_COMPARISON_DATA } from "../../data/analyticsData";
 import { CHART_COLORS } from "../../constants";
+import type { ModelMetrics } from "../../types/analytics";
 
-function SharpeRatioChart() {
-  const data = MODEL_COMPARISON_DATA.map((m) => ({
+interface Props {
+  models?: ModelMetrics[];
+}
+
+function SharpeRatioChart({ models = MODEL_COMPARISON_DATA }: Props) {
+  const data = models.map((m) => ({
     name: m.name,
     sharpe: m.sharpe,
   }));

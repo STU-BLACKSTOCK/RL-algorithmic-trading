@@ -4,6 +4,7 @@ export type { PredictionResponse } from "./prediction";
 export type { StockAnalysis } from "./stockAnalysis";
 export type { HistoryItem, HistorySortField, SortDirection, HistorySortConfig } from "./history";
 export type { HealthStatus, ApiError } from "./api";
+export type { AnalyticsResponse, ModelMetrics, EquityPoint } from "./analytics";
 
 export type TradingAction =
   | "HOLD"

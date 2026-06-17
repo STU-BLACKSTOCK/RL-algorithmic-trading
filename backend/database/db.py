@@ -1,10 +1,10 @@
 import sqlite3
 
-DATABASE = "backend/database/trading.db"
+from backend.config import DATABASE_PATH
 
 
 def get_connection():
 
     return sqlite3.connect(
-        DATABASE
+        DATABASE_PATH
     )
