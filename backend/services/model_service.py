@@ -6,6 +6,10 @@ from backend.services.data_service import (
     DataService
 )
 
+from backend.database.prediction_repository import (
+    PredictionRepository
+)
+
 # Project root directory
 BASE_DIR = os.path.dirname(
     os.path.dirname(
@@ -28,6 +32,7 @@ class ModelService:
     def __init__(self):
 
         self.model_path = MODEL_PATH
+        self.repo = PredictionRepository()
 
         # Load trained PPO model
         self.model = PPO.load(
@@ -186,3 +191,33 @@ class ModelService:
         )
 
         return analysis
+
+        
+    def get_prediction_history(
+        self
+    ):
+
+        rows = (
+            self.repo
+            .get_history()
+        )
+
+        history = []
+
+        for row in rows:
+
+            history.append({
+
+                "id": row[0],
+
+                "ticker": row[1],
+
+                "action": row[2],
+
+                "created_at": row[3]
+
+            })
+
+        return history
+
+    

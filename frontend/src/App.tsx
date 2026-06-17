@@ -11,6 +11,7 @@ import ModelInfo from "./pages/ModelInfo";
 import MainLayout from "./layouts/MainLayout";
 import Analytics from "./pages/Analytics";
 import StockAnalysis from "./pages/StockAnalysis";
+import History from "./pages/History";
 
 function App() {
 
@@ -53,6 +54,10 @@ function App() {
             }
           />
 
+          <Route
+            path="/history"
+            element={<History />}
+          />
         </Routes>
 
       </MainLayout>

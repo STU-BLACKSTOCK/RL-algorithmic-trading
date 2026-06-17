@@ -32,20 +32,26 @@ def predict(
     request: PredictionRequest
 ):
 
-    action = (
-        service.predict_action(
-            request.ticker
+    action = service.predict_action(
+        request.ticker
+    )
+
+    action_text = (
+        service.action_to_text(
+            action
         )
+    )
+
+    service.repo.save_prediction(
+        request.ticker,
+        action_text
     )
 
     return {
         "ticker":
             request.ticker,
         "action":
-            service.action_to_text(
-                action
-            ),
-        "model": "ppo_aapl_v7"
+            action_text
     }
 
 @router.get(
@@ -59,4 +65,12 @@ def stock_analysis(
         service.get_stock_analysis(
             ticker
         )
+    )
+
+@router.get("/history")
+def history():
+
+    return (
+        service
+        .get_prediction_history()
     )
