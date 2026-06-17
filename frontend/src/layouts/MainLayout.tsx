@@ -1,107 +1,43 @@
-import { Link } from "react-router-dom";
+import { useState, useEffect, type ReactNode } from "react";
+import Sidebar from "../components/layout/Sidebar";
+import Navbar from "../components/layout/Navbar";
+import { useSidebarState } from "../hooks/useMediaQuery";
+import api from "../services/api";
+import type { DashboardData } from "../types/dashboard";
 
-type Props = {
-  children: React.ReactNode;
-};
+interface MainLayoutProps {
+  children: ReactNode;
+}
 
-function MainLayout({
-  children
-}: Props) {
+function MainLayout({ children }: MainLayoutProps) {
+  const { isOpen, isDesktop, toggle, close } = useSidebarState();
+  const [modelLoaded, setModelLoaded] = useState<boolean | undefined>();
+
+  useEffect(() => {
+    api
+      .get<DashboardData>("/dashboard")
+      .then((res) => setModelLoaded(res.data.loaded))
+      .catch(() => setModelLoaded(false));
+  }, []);
 
   return (
+    <div className="app-layout">
+      {!isDesktop && (
+        <div
+          className={`app-layout__overlay ${isOpen ? "app-layout__overlay--visible" : ""}`}
+          onClick={close}
+          aria-hidden="true"
+        />
+      )}
 
-    <div
-      style={{
-        display: "flex",
-        minHeight: "100vh"
-      }}
-    >
+      <div className={`app-layout__sidebar ${isOpen || isDesktop ? "app-layout__sidebar--open" : ""}`}>
+        <Sidebar onNavigate={close} />
+      </div>
 
-      <aside
-        style={{
-          width: "250px",
-          padding: "20px",
-          borderRight:
-            "1px solid #ddd"
-        }}
-      >
-
-        <h2>
-          RL Trading
-        </h2>
-
-        <nav>
-
-          <ul
-            style={{
-              listStyle: "none",
-              padding: 0
-            }}
-          >
-
-            <li>
-              <Link to="/">
-                Dashboard
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/prediction"
-              >
-                Prediction
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/model"
-              >
-                Model Info
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/analytics"
-              >
-                Analytics
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/analysis"
-              >
-                Stock Analysis
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/history"
-              >
-                History
-              </Link>
-            </li>
-
-          </ul>
-
-        </nav>
-
-      </aside>
-
-      <main
-        style={{
-          flex: 1,
-          padding: "30px"
-        }}
-      >
-
-        {children}
-
-      </main>
-
+      <div className="app-layout__main">
+        <Navbar onMenuClick={toggle} modelLoaded={modelLoaded} />
+        <main className="app-layout__content">{children}</main>
+      </div>
     </div>
   );
 }
