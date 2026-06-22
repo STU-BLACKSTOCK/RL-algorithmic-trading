@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { IconMenu } from "../icons";
 import StatusBadge from "../ui/StatusBadge";
-import { ROUTE_TITLES } from "../../constants/navItems";
+import { APP_NAME, ROUTE_TITLES } from "../../constants/navItems";
 import { useHealthCheck } from "../../hooks/useHealthCheck";
 
 interface NavbarProps {
@@ -40,7 +40,7 @@ function Navbar({ onMenuClick, modelLoaded }: NavbarProps) {
           <IconMenu />
         </button>
         <div className="navbar__breadcrumb">
-          TradeRL / <strong>{pageTitle}</strong>
+          {APP_NAME} / <strong>{pageTitle}</strong>
         </div>
       </div>
 

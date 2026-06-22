@@ -10,7 +10,6 @@ interface CardProps {
   children?: ReactNode;
   className?: string;
   hoverable?: boolean;
-  glow?: boolean;
   style?: CSSProperties;
 }
 
@@ -20,17 +19,15 @@ function Card({
   value,
   footer,
   icon,
-  iconBg = "var(--accent-glow)",
+  iconBg = "var(--accent-muted)",
   children,
   className = "",
   hoverable = false,
-  glow = false,
   style,
 }: CardProps) {
   const cardClass = [
     "card",
     hoverable ? "card--hoverable" : "",
-    glow ? "card--glow" : "",
     className,
   ]
     .filter(Boolean)

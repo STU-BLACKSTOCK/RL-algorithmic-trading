@@ -13,6 +13,7 @@ import ModelInfo from "./pages/ModelInfo";
 import Analytics from "./pages/Analytics";
 import StockAnalysis from "./pages/StockAnalysis";
 import History from "./pages/History";
+import PaperTrading from "./pages/PaperTrading";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/prediction" element={<Prediction />} />
+            <Route path="/paper-trading" element={<PaperTrading />} />
             <Route path="/model" element={<ModelInfo />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/analysis" element={<StockAnalysis />} />

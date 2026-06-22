@@ -1,322 +1,213 @@
-# RL Algorithmic Trading System
+# RL Algorithmic Trading
 
-## Project Overview
+A full-stack capstone project that uses **Proximal Policy Optimization (PPO)** to generate stock trading signals. Includes a FastAPI backend, React dashboard, technical analysis, paper trading simulation, and SQLite persistence.
 
-A full-stack AI-powered algorithmic trading platform that uses Reinforcement Learning (PPO) to generate stock trading decisions. The system includes a custom trading environment, FastAPI backend, React frontend, technical analysis engine, portfolio analytics dashboard, and prediction history persistence.
-
----
-
-# Phase 1 – Project Setup
-
-* Initialized Git repository
-* Created project structure
-* Configured Python virtual environment
-* Installed RL, ML, and data processing dependencies
+Supported tickers: **AAPL**, **MSFT**, **GOOGL**
 
 ---
 
-# Phase 2 – Data Collection
+## Features
 
-* Downloaded historical stock market data using Yahoo Finance
-* Collected data for:
-
-  * AAPL
-  * MSFT
-  * GOOGL
-* Stored raw OHLCV data
-
----
-
-# Phase 3 – Data Preprocessing
-
-* Cleaned historical stock data
-* Handled missing values
-* Created engineered features
-* Generated technical indicators:
-
-  * SMA20
-  * SMA50
-  * EMA20
-  * RSI
-  * MACD
-  * MACD Signal
-  * Daily Returns
+- **RL Predictions** — PPO agent generates HOLD / BUY / SELL signals
+- **Paper Trading** — step-by-step backtest simulation on historical test data
+- **Portfolio View** — session summary, equity curve, and trade log
+- **Stock Analysis** — RSI, MACD, SMA indicators + model prediction
+- **Analytics** — model comparison metrics and charts
+- **Prediction History** — SQLite-backed signal log with search and pagination
 
 ---
 
-# Phase 4 – Dataset Preparation
+## Tech Stack
 
-* Normalized features using MinMaxScaler
-* Created:
-
-  * Training dataset
-  * Validation dataset
-  * Testing dataset
-* Saved scalers for reproducibility
-
----
-
-# Phase 5 – Trading Environment Development
-
-Built a custom OpenAI Gymnasium trading environment.
-
-Features:
-
-* Portfolio simulation
-* Transaction costs
-* Cash management
-* Position tracking
-* Reward calculation
-* Trading statistics
-
-Actions:
-
-* HOLD
-* BUY 25%
-* BUY 100%
-* SELL 25%
-* SELL 100%
+| Layer | Technologies |
+|-------|-------------|
+| Frontend | React, TypeScript, Vite, Axios, React Router, Recharts |
+| Backend | FastAPI, Uvicorn |
+| ML/RL | Stable-Baselines3, Gymnasium, PyTorch |
+| Data | Pandas, scikit-learn, yfinance |
+| Database | SQLite |
 
 ---
 
-# Phase 6 – Environment Validation
+## Project Structure
 
-* Tested environment interactions
-* Verified observation space
-* Verified action space
-* Passed Stable-Baselines3 environment checker
-
----
-
-# Phase 7 – PPO Agent Training
-
-Implemented PPO using Stable-Baselines3.
-
-Features:
-
-* MLP Policy
-* TensorBoard monitoring
-* Reinforcement learning training pipeline
+```
+RL-algorithmic-trading/
+├── backend/           # FastAPI app, services, SQLite
+├── frontend/          # React + TypeScript UI
+├── src/               # RL training, evaluation, trading env
+├── data/              # Raw, processed, train/val/test CSVs
+├── models/            # Trained PPO checkpoints (.zip)
+├── results/           # Evaluation outputs, analytics JSON
+├── docs/              # Development phase history
+├── TRAINING.md        # Model training guide
+└── render.yaml        # Backend deployment config
+```
 
 ---
 
-# Phase 8 – Evaluation Engine
+## Screenshots
 
-Created evaluation framework.
+| Dashboard | Paper Trading |
+|-----------|---------------|
+| _Add screenshot here_ | _Add screenshot here_ |
 
-Metrics:
-
-* Portfolio Value
-* Cumulative Return
-* Annualized Return
-* Volatility
-* Sharpe Ratio
-* Maximum Drawdown
-
-Generated:
-
-* Equity Curve
-* Trading Statistics
+| Prediction | Analytics |
+|------------|-----------|
+| _Add screenshot here_ | _Add screenshot here_ |
 
 ---
 
-# Phase 9 – Benchmark Comparison
+## Prerequisites
 
-Implemented Buy-and-Hold benchmark.
-
-Compared:
-
-* PPO Agent
-* Buy & Hold Strategy
+- Python 3.10+
+- Node.js 18+
+- Trained model at `models/ppo_aapl_v7.zip` (see [TRAINING.md](TRAINING.md))
 
 ---
 
-# Phase 10 – Reward Engineering
+## Setup
 
-Experimented with:
+### 1. Clone and install backend
 
-* Portfolio Return Rewards
-* Drawdown Penalties
-* Transaction Cost Effects
-* Risk-Aware Rewards
+```bash
+cd RL-algorithmic-trading
+python -m venv venv
+source venv/bin/activate        # Windows: .\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
 
-Selected best-performing reward design.
+### 2. Prepare data (if not already present)
 
----
+```bash
+cd src
+python download_data.py
+python preprocess_data.py
+python prepare_dataset.py
+cd ..
+```
 
-# Phase 11 – Advanced Trading Actions
+### 3. Train model (required for predictions)
 
-Expanded action space from:
+```bash
+python src/train_improved.py
+python src/evaluate_all_models.py
+```
 
-* Buy
-* Sell
-* Hold
+### 4. Install frontend
 
-to:
-
-* HOLD
-* BUY 25%
-* BUY 100%
-* SELL 25%
-* SELL 100%
-
----
-
-# Phase 12 – Multi-Stock Experiments
-
-Created MultiStockTradingEnv.
-
-Trained agent across:
-
-* AAPL
-* MSFT
-* GOOGL
-
-Evaluated cross-stock generalization performance.
+```bash
+cd frontend
+npm install
+cp .env.example .env
+cd ..
+```
 
 ---
 
-# Phase 13 – Model Comparison
+## Running Locally
 
-Compared:
+**Backend** (from project root):
 
-* PPO v1
-* PPO v7
-* MultiStock PPO
+```bash
+uvicorn backend.app:app --reload
+```
 
-Analyzed:
+API: http://127.0.0.1:8000  
+Docs: http://127.0.0.1:8000/docs
 
-* Returns
-* Sharpe Ratio
-* Drawdowns
-* Trading behavior
+**Frontend**:
 
----
+```bash
+cd frontend
+npm run dev
+```
 
-# Phase 14 – Project Refactoring
-
-Reorganized project structure.
-
-Separated:
-
-* Training code
-* Evaluation code
-* Testing utilities
-* Backend services
+UI: http://localhost:5173
 
 ---
 
-# Phase 15 – FastAPI Backend
+## Paper Trading
 
-Built REST API layer.
+1. Open **Paper Trading** in the sidebar
+2. Select a ticker (AAPL / MSFT / GOOGL)
+3. Click **Start Paper Trade**
+4. View portfolio summary, equity curve, and trade log
 
-Endpoints:
+Or via API:
 
-* /api/model-info
-* /api/dashboard
-* /api/predict
-* /api/stock-analysis
-* /api/history
-
-Features:
-
-* PPO model loading
-* Real-time prediction serving
-* Technical indicator retrieval
-* Prediction persistence
+```bash
+curl -X POST http://127.0.0.1:8000/api/paper-trade/run \
+  -H "Content-Type: application/json" \
+  -d '{"ticker":"AAPL","initial_cash":10000}'
+```
 
 ---
 
-# Phase 16 – React Frontend
+## API Overview
 
-Developed React + TypeScript frontend.
-
-Pages:
-
-* Dashboard
-* Prediction
-* Model Information
-* Analytics
-* Stock Analysis
-* Prediction History
-
-Integrated FastAPI backend APIs.
-
----
-
-# Phase 17 – Database Integration
-
-Implemented SQLite persistence.
-
-Stored:
-
-* Prediction history
-* Generated trading signals
-* Timestamps
-
-Provided historical prediction retrieval APIs.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/dashboard` | Model status summary |
+| GET | `/api/model-info` | Model metadata |
+| POST | `/api/predict` | Single RL prediction |
+| GET | `/api/stock-analysis/{ticker}` | Indicators + prediction |
+| GET | `/api/history` | Prediction history |
+| GET | `/api/analytics` | Model comparison metrics |
+| POST | `/api/paper-trade/run` | Run paper trading simulation |
+| GET | `/api/paper-trade/history` | List paper trading sessions |
+| GET | `/api/paper-trade/{id}` | Session detail + trades |
 
 ---
 
-# Technologies Used
+## Deployment
 
-Frontend:
+### Backend — Render
 
-* React
-* TypeScript
-* Axios
-* React Router
-* Recharts
+1. Push repo to GitHub
+2. Create a new **Web Service** on [Render](https://render.com)
+3. Use `render.yaml` or set:
+   - **Build:** `pip install -r requirements.txt`
+   - **Start:** `uvicorn backend.app:app --host 0.0.0.0 --port $PORT`
+4. Set environment variables (see `.env.example`):
+   - `CORS_ORIGINS=https://your-app.vercel.app`
 
-Backend:
+### Frontend — Vercel
 
-* FastAPI
-* Uvicorn
+1. Import the repo on [Vercel](https://vercel.com)
+2. Set **Root Directory** to `frontend`
+3. Add environment variable:
+   - `VITE_API_URL=https://your-api.onrender.com/api`
+4. Deploy
 
-Machine Learning:
-
-* Stable-Baselines3
-* PPO
-* Gymnasium
-
-Data Science:
-
-* Pandas
-* NumPy
-* Scikit-Learn
-
-Database:
-
-* SQLite
-
-Visualization:
-
-* TensorBoard
-* Matplotlib
-* Recharts
+See `.env.example` files in the project root and `frontend/` for all variables.
 
 ---
 
-# Key Features
+## Environment Variables
 
-* Reinforcement Learning Trading Agent
-* Multi-Stock Analysis
-* Technical Indicator Dashboard
-* Portfolio Analytics
-* Prediction API
-* Historical Prediction Tracking
-* Full-Stack Architecture
-* Interactive Web Interface
+| Variable | Where | Default |
+|----------|-------|---------|
+| `CORS_ORIGINS` | Backend | `http://localhost:5173` |
+| `VITE_API_URL` | Frontend | `http://127.0.0.1:8000/api` |
 
 ---
 
-# Future Enhancements
+## Development History
 
-* Live Market Data Integration
-* User Authentication
-* Portfolio Management
-* Paper Trading
-* Cloud Deployment
-* Model Retraining Dashboard
-* Advanced Risk Management
-* Real-Time Notifications
+Phase-by-phase build log: [docs/project_phases.md](docs/project_phases.md)
+
+---
+
+## Future Improvements
+
+- Live market data (Yahoo Finance at request time)
+- Support for additional tickers with per-stock models
+- User authentication
+- Model retraining from the UI
+
+---
+
+## License
+
+Academic capstone project — for portfolio and educational use only. Not financial advice.

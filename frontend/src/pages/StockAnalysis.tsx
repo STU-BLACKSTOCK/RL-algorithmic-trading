@@ -83,13 +83,12 @@ function StockAnalysis() {
               value={`$${formatNumber(data.close)}`}
               icon={<IconAnalysis size={20} />}
               hoverable
-              glow
             >
               <p style={{ marginTop: "8px", fontSize: "var(--text-sm)", color: "var(--text-muted)" }}>
                 {data.ticker} — most recent closing price
               </p>
             </Card>
-            <Card title="RL Prediction" hoverable glow>
+            <Card title="RL Prediction" hoverable>
               <div style={{ marginTop: "8px" }}>
                 <SignalBadge action={data.prediction} />
               </div>

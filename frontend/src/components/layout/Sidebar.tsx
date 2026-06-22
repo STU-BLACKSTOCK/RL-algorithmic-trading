@@ -37,8 +37,7 @@ function Sidebar({ onNavigate }: SidebarProps) {
       </nav>
 
       <div className="sidebar__footer">
-        <p className="sidebar__footer-text">PPO Reinforcement Learning</p>
-        <p className="sidebar__footer-text">Capstone Project v1.0</p>
+        <p className="sidebar__footer-text">PPO · FastAPI · React</p>
       </div>
     </aside>
   );

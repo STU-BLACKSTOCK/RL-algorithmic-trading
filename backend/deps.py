@@ -1,0 +1,14 @@
+from backend.services.model_service import ModelService
+
+_model_service: ModelService | None = None
+
+
+def get_model_service() -> ModelService:
+
+    global _model_service
+
+    if _model_service is None:
+
+        _model_service = ModelService()
+
+    return _model_service

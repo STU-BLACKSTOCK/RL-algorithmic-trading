@@ -1,29 +1,30 @@
 from fastapi import APIRouter, HTTPException
 
-from backend.services.model_service import ModelService
-from backend.services.analytics_service import AnalyticsService
+from backend.deps import get_model_service
 from backend.schemas.prediction_schema import PredictionRequest
+from backend.services.analytics_service import AnalyticsService
 
 router = APIRouter()
 
-service = ModelService()
 analytics_service = AnalyticsService()
 
 
 @router.get("/model-info")
 def get_model_info():
 
-    return service.get_model_info()
+    return get_model_service().get_model_info()
 
 
 @router.get("/dashboard")
 def dashboard():
 
-    return service.get_dashboard_data()
+    return get_model_service().get_dashboard_data()
 
 
 @router.post("/predict")
 def predict(request: PredictionRequest):
+
+    service = get_model_service()
 
     if not service.loaded:
 
@@ -52,13 +53,13 @@ def predict(request: PredictionRequest):
 @router.get("/stock-analysis/{ticker}")
 def stock_analysis(ticker: str):
 
-    return service.get_stock_analysis(ticker)
+    return get_model_service().get_stock_analysis(ticker)
 
 
 @router.get("/history")
 def history():
 
-    return service.get_prediction_history()
+    return get_model_service().get_prediction_history()
 
 
 @router.get("/analytics")

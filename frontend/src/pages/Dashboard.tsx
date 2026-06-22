@@ -2,18 +2,10 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import type { DashboardData } from "../types/dashboard";
 import PageHeader from "../components/ui/PageHeader";
-import Card from "../components/ui/Card";
+import MetricCard from "../components/ui/MetricCard";
 import Loader from "../components/ui/Loader";
 import ErrorState from "../components/ui/ErrorState";
 import StatusBadge from "../components/ui/StatusBadge";
-import {
-  IconBrain,
-  IconServer,
-  IconWallet,
-  IconTrendUp,
-} from "../components/icons";
-import { formatCurrency, formatPercent } from "../utils/formatters";
-import { MODEL_COMPARISON_DATA, INITIAL_CAPITAL } from "../data/analyticsData";
 import { useHealthCheck } from "../hooks/useHealthCheck";
 
 function Dashboard() {
@@ -28,9 +20,8 @@ function Dashboard() {
     try {
       const response = await api.get<DashboardData>("/dashboard");
       setData(response.data);
-    } catch (err) {
-      setError("Unable to load dashboard data. Ensure the backend server is running.");
-      console.error(err);
+    } catch {
+      setError("Unable to load dashboard. Make sure the backend is running.");
     } finally {
       setLoading(false);
     }
@@ -40,15 +31,11 @@ function Dashboard() {
     fetchDashboard();
   }, []);
 
-  const bestModel = MODEL_COMPARISON_DATA.reduce((best, current) =>
-    current.portfolio > best.portfolio ? current : best
-  );
-
   if (loading) {
     return (
       <>
-        <PageHeader title="Dashboard" subtitle="Overview of your RL trading platform" />
-        <Loader text="Loading dashboard..." />
+        <PageHeader title="Dashboard" subtitle="System overview" />
+        <Loader text="Loading..." />
       </>
     );
   }
@@ -56,135 +43,61 @@ function Dashboard() {
   if (error) {
     return (
       <>
-        <PageHeader title="Dashboard" subtitle="Overview of your RL trading platform" />
+        <PageHeader title="Dashboard" subtitle="System overview" />
         <ErrorState message={error} onRetry={fetchDashboard} />
       </>
     );
   }
 
   const backendStatus = isChecking ? "warning" : isOnline ? "online" : "offline";
-  const backendLabel = isChecking ? "Checking API..." : isOnline ? "Backend Connected" : "Backend Offline";
   const modelStatus = data?.loaded ? "online" : "offline";
-  const modelLabel = data?.loaded ? "PPO Model Loaded" : "Model Not Loaded";
 
   return (
     <div>
       <PageHeader
         title="Dashboard"
-        subtitle="Real-time overview of your reinforcement learning trading platform"
+        subtitle="RL algorithmic trading platform — system status and model overview"
       />
 
-      <section className="section">
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "24px" }}>
-          <StatusBadge status={backendStatus} label={backendLabel} />
-          <StatusBadge status={modelStatus} label={modelLabel} />
-        </div>
-      </section>
-
-      <div className="kpi-grid">
-        <Card
-          title="Active Model"
-          value={data?.model ?? "—"}
-          icon={<IconBrain size={20} />}
-          iconBg="rgba(99, 102, 241, 0.15)"
-          footer={`${data?.action_space ?? 0} discrete actions`}
-          hoverable
+      <div style={{ display: "flex", gap: "8px", marginBottom: "20px", flexWrap: "wrap" }}>
+        <StatusBadge
+          status={backendStatus}
+          label={isOnline ? "API Online" : "API Offline"}
         />
-        <Card
-          title="Lookback Window"
-          value={`${data?.lookback_window ?? 0} days`}
-          icon={<IconTrendUp size={20} />}
-          iconBg="rgba(59, 130, 246, 0.15)"
-          footer="Historical feature window"
-          hoverable
-        />
-        <Card
-          title="Best Model Return"
-          value={formatPercent(bestModel.returnPct)}
-          icon={<IconWallet size={20} />}
-          iconBg="rgba(34, 197, 94, 0.12)"
-          footer={`${bestModel.name} on test data`}
-          hoverable
-          glow
-        />
-        <Card
-          title="Initial Capital"
-          value={formatCurrency(INITIAL_CAPITAL)}
-          icon={<IconServer size={20} />}
-          iconBg="rgba(6, 182, 212, 0.12)"
-          footer="Simulation starting balance"
-          hoverable
+        <StatusBadge
+          status={modelStatus}
+          label={data?.loaded ? "Model Loaded" : "Model Not Loaded"}
         />
       </div>
 
-      <section className="section">
-        <h2 className="section__title">Portfolio Summary</h2>
+      <section className="page-section">
+        <h2 className="page-section__title">Model Status</h2>
         <div className="kpi-grid">
-          {MODEL_COMPARISON_DATA.map((model) => (
-            <Card key={model.name} hoverable>
-              <div className="card__header">
-                <div>
-                  <div className="card__title">{model.name}</div>
-                  <div className="card__subtitle">Evaluation results</div>
-                </div>
-              </div>
-              <div className="card__value card__value--mono" style={{ fontSize: "var(--text-xl)" }}>
-                {formatCurrency(model.portfolio)}
-              </div>
-              <div style={{ display: "flex", gap: "16px", marginTop: "12px", flexWrap: "wrap" }}>
-                <span style={{ fontSize: "var(--text-sm)", color: model.returnPct >= 0 ? "var(--color-success)" : "var(--color-danger)" }}>
-                  {formatPercent(model.returnPct)}
-                </span>
-                <span style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)" }}>
-                  Sharpe: {model.sharpe.toFixed(2)}
-                </span>
-                <span style={{ fontSize: "var(--text-sm)", color: "var(--color-danger)" }}>
-                  Max DD: {model.drawdown}%
-                </span>
-              </div>
-            </Card>
-          ))}
+          <MetricCard label="Model" value={data?.model ?? "—"} />
+          <MetricCard label="Lookback Window" value={`${data?.lookback_window ?? 0} days`} />
+          <MetricCard label="Action Space" value={`${data?.action_space ?? 0} actions`} />
+          <MetricCard
+            label="Model State"
+            value={data?.loaded ? "Ready" : "Unavailable"}
+            hint={data?.loaded ? "PPO checkpoint loaded" : "Train model to enable predictions"}
+          />
         </div>
       </section>
 
-      <section className="section">
-        <h2 className="section__title">System Status</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
-          <Card title="Backend API" hoverable>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "8px" }}>
-              <span style={{ color: "var(--text-secondary)", fontSize: "var(--text-sm)" }}>
-                FastAPI server at localhost:8000
-              </span>
-              <StatusBadge status={backendStatus} label={isOnline ? "Online" : "Offline"} />
-            </div>
-          </Card>
-          <Card title="RL Model" hoverable>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "8px" }}>
-              <span style={{ color: "var(--text-secondary)", fontSize: "var(--text-sm)" }}>
-                PPO agent inference engine
-              </span>
-              <StatusBadge status={modelStatus} label={data?.loaded ? "Ready" : "Unavailable"} />
-            </div>
-          </Card>
-          <Card title="Supported Tickers" hoverable>
-            <div style={{ display: "flex", gap: "8px", marginTop: "12px", flexWrap: "wrap" }}>
-              {["AAPL", "MSFT", "GOOGL"].map((t) => (
-                <span
-                  key={t}
-                  style={{
-                    padding: "4px 12px",
-                    background: "var(--bg-hover)",
-                    borderRadius: "6px",
-                    fontSize: "var(--text-sm)",
-                    fontFamily: "var(--font-mono)",
-                    fontWeight: 600,
-                  }}
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          </Card>
+      <section className="page-section">
+        <h2 className="page-section__title">Project Overview</h2>
+        <div className="card">
+          <p style={{ color: "var(--text-secondary)", lineHeight: 1.7, fontSize: "var(--text-sm)" }}>
+            This capstone project uses Proximal Policy Optimization (PPO) to generate trading signals
+            for AAPL, MSFT, and GOOGL. The backend serves model predictions and technical indicators;
+            the frontend provides analytics, paper trading simulation, and prediction history.
+          </p>
+          <ul style={{ marginTop: "16px", paddingLeft: "20px", color: "var(--text-secondary)", fontSize: "var(--text-sm)", lineHeight: 1.8 }}>
+            <li><strong style={{ color: "var(--text-primary)" }}>Prediction</strong> — single-step RL signal for a ticker</li>
+            <li><strong style={{ color: "var(--text-primary)" }}>Paper Trading</strong> — full backtest simulation on test data</li>
+            <li><strong style={{ color: "var(--text-primary)" }}>Stock Analysis</strong> — technical indicators + model output</li>
+            <li><strong style={{ color: "var(--text-primary)" }}>Analytics</strong> — model comparison metrics</li>
+          </ul>
         </div>
       </section>
     </div>

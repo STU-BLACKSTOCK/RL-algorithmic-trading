@@ -111,7 +111,7 @@ function ModelInfoPage() {
                     width: "32px",
                     height: "32px",
                     borderRadius: "8px",
-                    background: "var(--accent-glow)",
+                    background: "var(--accent-muted)",
                     color: "var(--accent-primary)",
                     fontWeight: 700,
                     fontSize: "var(--text-sm)",

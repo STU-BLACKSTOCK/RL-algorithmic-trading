@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import { API_ROOT } from "../services/api";
 
-const HEALTH_URL = "http://127.0.0.1:8000/health";
+const HEALTH_URL = `${API_ROOT}/health`;
 const POLL_INTERVAL = 30000;
 
 export function useHealthCheck() {
@@ -10,8 +10,11 @@ export function useHealthCheck() {
 
   const checkHealth = useCallback(async () => {
     try {
-      const response = await axios.get(HEALTH_URL, { timeout: 5000 });
-      setIsOnline(response.data?.status === "healthy");
+      const response = await fetch(HEALTH_URL, {
+        signal: AbortSignal.timeout(5000),
+      });
+      const data = await response.json();
+      setIsOnline(data?.status === "healthy");
     } catch {
       setIsOnline(false);
     } finally {

@@ -91,7 +91,6 @@ function Prediction() {
             title="Selected Asset"
             icon={<IconPrediction size={20} />}
             hoverable
-            glow
           >
             <div className="card__value card__value--mono" style={{ fontSize: "var(--text-3xl)" }}>
               {prediction.ticker}
@@ -104,7 +103,6 @@ function Prediction() {
           <Card
             title="Trading Signal"
             hoverable
-            glow
             style={{ borderColor: signalColor }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px", color: signalColor }}>
