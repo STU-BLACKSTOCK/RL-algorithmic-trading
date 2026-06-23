@@ -50,11 +50,11 @@ RL-algorithmic-trading/
 
 | Dashboard | Paper Trading |
 |-----------|---------------|
-| _Add screenshot here_ | _Add screenshot here_ |
+| <img src="screenshots/dashboard.png" width="450"/> | <img src="screenshots/paper-trading.png" width="450"/> |
 
 | Prediction | Analytics |
 |------------|-----------|
-| _Add screenshot here_ | _Add screenshot here_ |
+| <img src="screenshots/prediction.png" width="450"/> | <img src="screenshots/analytics.png" width="450"/> |
 
 ---
 
